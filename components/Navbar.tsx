@@ -35,20 +35,20 @@ export default function Navbar() {
       }`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
-          {/* ── Logo: crosshair icon + wordmark ── */}
+          {/* ── Logo: crosshair + wordmark ── */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-9 h-9 flex-shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(232,25,26,0.8)] transition-all duration-300">
-              <Image src="/overtake-logo.png" alt="Overtake" width={36} height={36} className="object-contain" priority />
+            <div className="relative w-10 h-10 flex-shrink-0 group-hover:drop-shadow-[0_0_10px_rgba(232,25,26,0.9)] transition-all duration-300">
+              <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" priority />
             </div>
-            {/* Wordmark — transparent PNG, shown as-is on dark bg */}
-            <div className="relative h-8 w-40 flex-shrink-0">
+            {/* New red/white wordmark — remove black background with mix-blend-mode */}
+            <div className="relative h-9 w-44 flex-shrink-0">
               <Image
-                src="/overtake-wordmark.png"
+                src="/overtake-wordmark-new.png"
                 alt="OVERTAKE"
                 fill
                 className="object-contain object-left"
                 priority
-                style={{ filter: 'brightness(0) invert(1)' }}
+                style={{ mixBlendMode: 'screen' }}
               />
             </div>
           </Link>
@@ -91,12 +91,12 @@ export default function Navbar() {
         }`}>
           <div className="flex items-center justify-between p-6 border-b border-white/5">
             <div className="flex items-center gap-3">
-              <div className="relative w-7 h-7">
+              <div className="relative w-8 h-8 flex-shrink-0">
                 <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" />
               </div>
-              <div className="relative h-6 w-32">
-                <Image src="/overtake-wordmark.png" alt="OVERTAKE" fill className="object-contain object-left"
-                  style={{ filter: 'brightness(0) invert(1)' }} />
+              <div className="relative h-7 w-36 flex-shrink-0">
+                <Image src="/overtake-wordmark-new.png" alt="OVERTAKE" fill className="object-contain object-left"
+                  style={{ mixBlendMode: 'screen' }} />
               </div>
             </div>
             <button onClick={() => setMenuOpen(false)} className="text-[#F2F2F2]/40 hover:text-[#F2F2F2]">

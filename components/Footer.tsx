@@ -18,9 +18,9 @@ const footerLinks = {
     { href: '/partners', label: 'Partners' },
   ],
   Engage: [
-    { href: '/join',                                label: 'Join Overtake' },
-    { href: '/contact',                             label: 'Contact' },
-    { href: '/#news',                               label: 'News' },
+    { href: '/join',                                     label: 'Join Overtake' },
+    { href: '/contact',                                  label: 'Contact' },
+    { href: '/#news',                                    label: 'News' },
     { href: 'https://discord.com/invite/OvertakeSector', label: 'Discord' },
   ],
   Legal: [
@@ -37,26 +37,23 @@ export default function Footer() {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#E8191A]/4 blur-[100px] rounded-full" />
 
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* Top */}
         <div className="py-16 grid grid-cols-1 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
               <div className="relative w-10 h-10 flex-shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(232,25,26,0.6)] transition-all duration-300">
-                <Image src="/overtake-logo.png" alt="Overtake" width={40} height={40} className="object-contain" />
+                <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" />
               </div>
-              <div className="relative h-7 w-36">
-                <Image src="/overtake-wordmark.png" alt="OVERTAKE" fill className="object-contain object-left"
-                  style={{ filter: 'brightness(0) invert(1)' }} />
+              <div className="relative h-8 w-40 flex-shrink-0">
+                <Image src="/overtake-wordmark-new.png" alt="OVERTAKE" fill className="object-contain object-left"
+                  style={{ mixBlendMode: 'screen' }} />
               </div>
             </Link>
-
             <p className="text-[#F2F2F2]/35 text-sm leading-relaxed max-w-xs mb-6">
               Overtake is a premier competitive esports organization building the next generation of champions in & out of the game.
             </p>
-
             <a href="https://discord.com/invite/OvertakeSector" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 px-5 py-3 rounded-sm text-sm font-medium text-[#5865F2] hover:text-[#F2F2F2] transition-all group">
+              className="inline-flex items-center gap-3 bg-[#E8191A]/10 hover:bg-[#E8191A]/20 border border-[#E8191A]/30 px-5 py-3 rounded-sm text-sm font-medium text-[#E8191A] hover:text-[#F2F2F2] transition-all group">
               <MessageCircle size={16} />
               Join our Discord
               <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -85,7 +82,6 @@ export default function Footer() {
 
         <div className="border-t border-white/5" />
 
-        {/* Bottom */}
         <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[#F2F2F2]/20 text-xs font-mono">
             © {new Date().getFullYear()} OVERTAKE SECTOR. ALL RIGHTS RESERVED.
