@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CustomCursor from '@/components/CustomCursor'
 
 export const metadata: Metadata = {
   title: 'OVERTAKE — Competitive Esports Organization',
@@ -14,11 +15,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
       <head>
@@ -29,7 +26,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#0D0D0D] text-[#F2F2F2] min-h-screen flex flex-col">
+      <body className="bg-[#0D0D0D] text-[#F2F2F2] min-h-screen flex flex-col cursor-none">
+        <CustomCursor />
         <Navbar />
         <main className="flex-1">
           {children}

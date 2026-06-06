@@ -147,3 +147,8 @@ body {
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
 .stagger-6 { animation-delay: 0.6s; }
+
+/* Hide default cursor globally */
+*, *::before, *::after {
+  cursor: none !important;
+}

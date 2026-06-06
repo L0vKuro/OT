@@ -1,90 +1,101 @@
-interface OvertakeLogoProps {
-  size?: number
-  className?: string
+import Link from 'next/link'
+import Image from 'next/image'
+import { Twitter, Youtube, Instagram, Twitch, MessageCircle, ChevronRight } from 'lucide-react'
+
+const socialLinks = [
+  { icon: Twitter,       label: 'Twitter',   href: 'https://twitter.com/OvertakeSector' },
+  { icon: Youtube,       label: 'YouTube',   href: 'https://youtube.com/@OvertakeSector' },
+  { icon: Instagram,     label: 'Instagram', href: 'https://instagram.com/OvertakeSector' },
+  { icon: Twitch,        label: 'Twitch',    href: 'https://twitch.tv/OvertakeSector' },
+  { icon: MessageCircle, label: 'Discord',   href: 'https://discord.com/invite/OvertakeSector' },
+]
+
+const footerLinks = {
+  Organization: [
+    { href: '/about',    label: 'About Us' },
+    { href: '/teams',    label: 'Teams' },
+    { href: '/creators', label: 'Creators' },
+    { href: '/partners', label: 'Partners' },
+  ],
+  Engage: [
+    { href: '/join',                                     label: 'Join Overtake' },
+    { href: '/contact',                                  label: 'Contact' },
+    { href: '/#news',                                    label: 'News' },
+    { href: 'https://discord.com/invite/OvertakeSector', label: 'Discord' },
+  ],
+  Legal: [
+    { href: '#', label: 'Privacy Policy' },
+    { href: '#', label: 'Terms of Service' },
+    { href: '#', label: 'Cookie Policy' },
+  ],
 }
 
-/**
- * Official Overtake crosshair logo mark.
- * Crosshair circle (4 arcs, gaps at diagonals) + directional ticks + red 4-point star.
- */
-export default function OvertakeLogo({ size = 36, className = '' }: OvertakeLogoProps) {
-  const id = `sg-${size}` // unique gradient id per size instance
+export default function Footer() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <defs>
-        <radialGradient id={id} cx="50%" cy="25%" r="75%">
-          <stop offset="0%" stopColor="#FF3334" />
-          <stop offset="100%" stopColor="#8C0B0C" />
-        </radialGradient>
-      </defs>
+    <footer className="relative bg-[#141414] border-t border-white/5 overflow-hidden">
+      <div className="absolute inset-0 bg-grid opacity-25" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#E8191A]/4 blur-[100px] rounded-full" />
 
-      {/*
-        4 arc segments forming a broken circle.
-        Radius 33, center 50,50, stroke 12.
-        Gaps fall at the 4 diagonal corners (NE, SE, SW, NW ~45°).
-        Each arc spans ~80° of the 90° quadrant.
-      */}
+      <div className="relative max-w-7xl mx-auto px-6">
+        <div className="py-16 grid grid-cols-1 lg:grid-cols-5 gap-12">
+          {/* Brand */}
+          <div className="lg:col-span-2">
+            <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
+              <div className="relative w-10 h-10 flex-shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(232,25,26,0.6)] transition-all duration-300">
+                <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" />
+              </div>
+              <div className="relative h-8 w-40 flex-shrink-0">
+                <Image src="https://i.imgur.com/x21MfAM.png" alt="OVERTAKE" fill className="object-contain object-left"
+                  style={{ mixBlendMode: 'screen' }} />
+              </div>
+            </Link>
+            <p className="text-[#F2F2F2]/35 text-sm leading-relaxed max-w-xs mb-6">
+              Overtake is a premier competitive esports organization building the next generation of champions in & out of the game.
+            </p>
+            <a href="https://discord.com/invite/OvertakeSector" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-[#E8191A]/10 hover:bg-[#E8191A]/20 border border-[#E8191A]/30 px-5 py-3 rounded-sm text-sm font-medium text-[#E8191A] hover:text-[#F2F2F2] transition-all group">
+              <MessageCircle size={16} />
+              Join our Discord
+              <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
 
-      {/* Top arc (NW→NE: roughly 315°→45°) */}
-      <path
-        d="M 26.7 26.7 A 33 33 0 0 1 73.3 26.7"
-        stroke="#F2F2F2"
-        strokeWidth="12"
-        strokeLinecap="square"
-        fill="none"
-      />
-      {/* Right arc (NE→SE) */}
-      <path
-        d="M 73.3 26.7 A 33 33 0 0 1 73.3 73.3"
-        stroke="#F2F2F2"
-        strokeWidth="12"
-        strokeLinecap="square"
-        fill="none"
-      />
-      {/* Bottom arc (SE→SW) */}
-      <path
-        d="M 73.3 73.3 A 33 33 0 0 1 26.7 73.3"
-        stroke="#F2F2F2"
-        strokeWidth="12"
-        strokeLinecap="square"
-        fill="none"
-      />
-      {/* Left arc (SW→NW) */}
-      <path
-        d="M 26.7 73.3 A 33 33 0 0 1 26.7 26.7"
-        stroke="#F2F2F2"
-        strokeWidth="12"
-        strokeLinecap="square"
-        fill="none"
-      />
+          {/* Links */}
+          {Object.entries(footerLinks).map(([category, links]) => (
+            <div key={category}>
+              <h4 className="text-xs font-bold tracking-widest uppercase text-[#E8191A] mb-5"
+                style={{ fontFamily: 'Barlow Condensed, sans-serif', letterSpacing: '0.2em' }}>
+                {category}
+              </h4>
+              <ul className="space-y-2.5">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className="text-[#F2F2F2]/35 hover:text-[#F2F2F2] text-sm transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-      {/*
-        Directional tick marks at N / E / S / W.
-        Trapezoid shape: wider at the outer tip, narrower at the circle edge —
-        creates the arrow/wedge look from the actual logo.
-      */}
+        <div className="border-t border-white/5" />
 
-      {/* Top tick ↑ */}
-      <polygon points="44,4 56,4 53,24 47,24" fill="#F2F2F2" />
-      {/* Bottom tick ↓ */}
-      <polygon points="44,96 56,96 53,76 47,76" fill="#F2F2F2" />
-      {/* Left tick ← */}
-      <polygon points="4,44 4,56 24,53 24,47" fill="#F2F2F2" />
-      {/* Right tick → */}
-      <polygon points="96,44 96,56 76,53 76,47" fill="#F2F2F2" />
-
-      {/* 4-point star — Crimson Red gradient */}
-      <path
-        d="M50 37 L53.2 46.8 L63 50 L53.2 53.2 L50 63 L46.8 53.2 L37 50 L46.8 46.8 Z"
-        fill={`url(#${id})`}
-      />
-    </svg>
+        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[#F2F2F2]/20 text-xs font-mono">
+            © {new Date().getFullYear()} OVERTAKE SECTOR. ALL RIGHTS RESERVED.
+          </p>
+          <div className="flex items-center gap-3">
+            {socialLinks.map(({ icon: Icon, label, href }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                className="w-8 h-8 flex items-center justify-center text-[#F2F2F2]/25 hover:text-[#F2F2F2] border border-white/5 hover:border-[#E8191A]/40 hover:bg-[#E8191A]/10 rounded transition-all">
+                <Icon size={14} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
   )
 }

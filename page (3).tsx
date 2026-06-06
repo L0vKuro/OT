@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronRight, MessageCircle, ArrowRight } from 'lucide-react'
@@ -13,17 +13,64 @@ const stats = [
   { label: 'Engagements', value: '3M', unit: '+' },
 ]
 
+// Google Drive direct download links
+const AUDIO_CLICK   = 'https://drive.google.com/uc?export=download&id=1XVmC66p9NufG3LYbRIQ2iZJFE4byvQV5'
+const AUDIO_HOVER   = 'https://drive.google.com/uc?export=download&id=1H03itErV1nFR1Yl_ZvmJoiSnQIoGQZoB'
+const AUDIO_SWOOSH  = 'https://drive.google.com/uc?export=download&id=1CTwMLxLI9oWBkT4E4urLxLkBYjkpjtGn'
+
 export default function HomePage() {
   const [splashDone, setSplashDone] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
 
+  const clickAudioRef  = useRef<HTMLAudioElement | null>(null)
+  const hoverAudioRef  = useRef<HTMLAudioElement | null>(null)
+  const swooshAudioRef = useRef<HTMLAudioElement | null>(null)
+
+  const playClick = () => {
+    if (!clickAudioRef.current) {
+      clickAudioRef.current = new Audio(AUDIO_CLICK)
+    }
+    clickAudioRef.current.currentTime = 0
+    clickAudioRef.current.play().catch(() => {})
+  }
+
+  const playHover = () => {
+    if (!hoverAudioRef.current) {
+      hoverAudioRef.current = new Audio(AUDIO_HOVER)
+    }
+    hoverAudioRef.current.currentTime = 0
+    hoverAudioRef.current.play().catch(() => {})
+  }
+
+  const stopHover = () => {
+    if (hoverAudioRef.current) {
+      hoverAudioRef.current.pause()
+      hoverAudioRef.current.currentTime = 0
+    }
+  }
+
+  const playSwoosh = () => {
+    if (!swooshAudioRef.current) {
+      swooshAudioRef.current = new Audio(AUDIO_SWOOSH)
+    }
+    swooshAudioRef.current.currentTime = 0
+    swooshAudioRef.current.play().catch(() => {})
+  }
+
   const handleYes = () => {
+    stopHover()
+    playClick()
+    setTimeout(() => playSwoosh(), 150)
     setFadeOut(true)
     setTimeout(() => setSplashDone(true), 700)
   }
 
   const handleNo = () => {
-    window.location.href = 'https://x.com/OvertakeSector'
+    stopHover()
+    playClick()
+    setTimeout(() => {
+      window.location.href = 'https://x.com/OvertakeSector'
+    }, 300)
   }
 
   return (
@@ -33,24 +80,20 @@ export default function HomePage() {
         <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0D0D0D] transition-opacity duration-700 ${fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <div className="absolute inset-0 bg-grid opacity-20" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#E8191A]/12 blur-[160px] rounded-full animate-pulse" />
-          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-[#E8191A]/6 blur-[100px] rounded-full" />
 
           <div className="relative z-10 flex flex-col items-center text-center px-6">
 
-            {/* Logo — no background, mix-blend-mode removes black */}
-            <div className="relative w-32 h-32 mb-6" style={{ mixBlendMode: 'screen' }}>
+            {/* Logo ONLY — huge, no black box */}
+            <div
+              className="relative mb-10"
+              style={{
+                width: '220px',
+                height: '220px',
+                mixBlendMode: 'screen',
+                filter: 'drop-shadow(0 0 40px rgba(232,25,26,0.5))',
+              }}
+            >
               <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" priority />
-            </div>
-
-            {/* Wordmark — BIG, transparent, no black box */}
-            <div className="relative mb-10" style={{ width: '420px', height: '80px', mixBlendMode: 'screen' }}>
-              <Image
-                src="/overtake-wordmark-new.png"
-                alt="OVERTAKE"
-                fill
-                className="object-contain"
-                priority
-              />
             </div>
 
             {/* Question */}
@@ -71,15 +114,31 @@ export default function HomePage() {
 
             {/* YES / NO — same size and shape */}
             <div className="flex items-center gap-5">
-              <button onClick={handleYes}
+              <button
+                onClick={handleYes}
+                onMouseEnter={playHover}
+                onMouseLeave={stopHover}
                 className="group flex items-center justify-center gap-3 bg-[#E8191A] hover:bg-[#B81011] font-black tracking-widest uppercase text-xl transition-all hover:shadow-[0_0_40px_rgba(232,25,26,0.6)] text-[#F2F2F2]"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif', width: '200px', height: '64px', clipPath: 'polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)' }}>
+                style={{
+                  fontFamily: 'Barlow Condensed, sans-serif',
+                  width: '200px',
+                  height: '64px',
+                  clipPath: 'polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)',
+                }}>
                 YES
                 <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <button onClick={handleNo}
+              <button
+                onClick={handleNo}
+                onMouseEnter={playHover}
+                onMouseLeave={stopHover}
                 className="flex items-center justify-center font-black tracking-widest uppercase text-xl text-[#F2F2F2]/60 hover:text-[#F2F2F2] border border-white/20 hover:border-white/40 transition-all"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif', width: '200px', height: '64px', clipPath: 'polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)' }}>
+                style={{
+                  fontFamily: 'Barlow Condensed, sans-serif',
+                  width: '200px',
+                  height: '64px',
+                  clipPath: 'polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)',
+                }}>
                 NO
               </button>
             </div>
@@ -92,25 +151,42 @@ export default function HomePage() {
 
         {/* ─── HERO ─── */}
         <section className="relative min-h-screen flex items-center overflow-hidden">
-          {/* Base bg */}
           <div className="absolute inset-0 bg-[#0D0D0D]" />
 
-          {/* Wallpaper — faded/transparent behind content */}
+          {/* Wallpaper bg */}
           <div className="absolute inset-0">
-            <Image
-              src="/overtake-wallpaper.png"
-              alt=""
-              fill
-              className="object-cover object-center"
-              style={{ opacity: 0.18 }}
-              priority
-            />
-            {/* Extra dark gradient overlay so text stays readable */}
+            <Image src="/overtake-wallpaper.png" alt="" fill className="object-cover object-center" style={{ opacity: 0.18 }} priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-[#0D0D0D]/80 to-[#0D0D0D]/40" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/60" />
           </div>
 
           <div className="absolute inset-0 bg-grid opacity-25" />
+
+          {/* ── Continuous red light bar sweep ── */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Sweeping horizontal bar */}
+            <div
+              className="absolute left-0 right-0 h-[2px]"
+              style={{
+                background: 'linear-gradient(90deg, transparent 0%, rgba(232,25,26,0.0) 10%, rgba(232,25,26,0.8) 50%, rgba(232,25,26,0.0) 90%, transparent 100%)',
+                animation: 'redSweep 4s linear infinite',
+                boxShadow: '0 0 20px 8px rgba(232,25,26,0.3)',
+              }}
+            />
+            {/* Ambient red cast on the right */}
+            <div className="absolute top-0 right-0 w-2/3 h-full"
+              style={{
+                background: 'radial-gradient(ellipse at 80% 40%, rgba(232,25,26,0.07) 0%, transparent 70%)',
+                animation: 'redPulse 3s ease-in-out infinite',
+              }}
+            />
+            {/* Bottom red edge glow */}
+            <div className="absolute bottom-0 left-0 right-0 h-32"
+              style={{
+                background: 'linear-gradient(to top, rgba(232,25,26,0.06), transparent)',
+              }}
+            />
+          </div>
 
           {/* Diagonal lines */}
           <div className="absolute right-0 top-0 h-full w-1/2 overflow-hidden opacity-10">
@@ -144,8 +220,7 @@ export default function HomePage() {
                 <Link href="/join"
                   className="group flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-8 py-4 font-bold tracking-widest uppercase text-sm transition-all hover:shadow-[0_0_40px_rgba(232,25,26,0.4)] clip-corner text-[#F2F2F2]"
                   style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
-                  Try Out Now
-                  <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  Try Out Now <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link href="/teams"
                   className="flex items-center gap-3 border border-white/10 hover:border-white/30 px-8 py-4 text-[#F2F2F2]/70 hover:text-[#F2F2F2] font-medium tracking-wider uppercase text-sm transition-all"
@@ -154,8 +229,7 @@ export default function HomePage() {
                 </Link>
                 <a href="https://discord.com/invite/OvertakeSector" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 text-[#E8191A] hover:text-[#F2F2F2] border border-[#E8191A]/20 hover:border-[#E8191A]/50 hover:bg-[#E8191A]/10 px-5 py-4 text-sm font-medium transition-all">
-                  <MessageCircle size={16} />
-                  Discord
+                  <MessageCircle size={16} /> Discord
                 </a>
               </div>
             </div>
@@ -167,8 +241,7 @@ export default function HomePage() {
           <div className="flex items-center px-8 w-full justify-center flex-wrap gap-y-3">
             {stats.map((s, i) => (
               <div key={s.label} className="flex items-center gap-4">
-                <span className="font-display font-black text-4xl text-[#F2F2F2]"
-                  style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+                <span className="font-display font-black text-4xl text-[#F2F2F2]" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {s.value}{s.unit}
                 </span>
                 <span className="text-[#F2F2F2]/70 text-sm font-medium uppercase tracking-wider">{s.label}</span>
@@ -178,20 +251,18 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ─── TEAMS OVERVIEW ─── */}
+        {/* ─── TEAMS ─── */}
         <section className="relative py-20 overflow-hidden">
           <div className="absolute inset-0 bg-grid opacity-20" />
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="flex items-end justify-between mb-12">
               <div>
                 <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-3">// Our Rosters</p>
-                <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-[#F2F2F2]"
-                  style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+                <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-[#F2F2F2]" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                   COMPETING AT<br />THE HIGHEST LEVEL
                 </h2>
               </div>
-              <Link href="/teams"
-                className="hidden md:flex items-center gap-2 text-[#F2F2F2]/40 hover:text-[#E8191A] text-sm font-medium tracking-wider transition-colors">
+              <Link href="/teams" className="hidden md:flex items-center gap-2 text-[#F2F2F2]/40 hover:text-[#E8191A] text-sm font-medium tracking-wider transition-colors">
                 View All Teams <ArrowRight size={14} />
               </Link>
             </div>
@@ -202,19 +273,14 @@ export default function HomePage() {
                   <div className="absolute top-0 left-0 w-1 h-full" style={{ background: team.color }} />
                   <div className="absolute top-0 left-0 w-full h-px" style={{ background: `linear-gradient(90deg, ${team.color}, transparent)` }} />
                   <div className="absolute top-0 right-0 w-32 h-32 blur-[60px] opacity-10 group-hover:opacity-20 transition-opacity" style={{ background: team.color }} />
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono px-2 py-0.5"
-                          style={{ color: team.color, background: `${team.color}15`, border: `1px solid ${team.color}30` }}>
-                          {team.region}
-                        </span>
-                      </div>
-                      <h3 className="font-display font-black text-3xl text-[#F2F2F2] uppercase"
-                        style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
-                        OT {team.game}
-                      </h3>
-                    </div>
+                  <div className="mb-4">
+                    <span className="text-xs font-mono px-2 py-0.5 mb-1 inline-block"
+                      style={{ color: team.color, background: `${team.color}15`, border: `1px solid ${team.color}30` }}>
+                      {team.region}
+                    </span>
+                    <h3 className="font-display font-black text-3xl text-[#F2F2F2] uppercase" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+                      OT {team.game}
+                    </h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {team.roster.map((player, pi) => (
@@ -240,8 +306,7 @@ export default function HomePage() {
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="mb-12">
               <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-3">// Latest Updates</p>
-              <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-[#F2F2F2]"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+              <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-[#F2F2F2]" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                 NEWS &<br />UPDATES
               </h2>
             </div>
@@ -256,9 +321,7 @@ export default function HomePage() {
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/40 to-transparent group-hover:via-transparent transition-all duration-500" />
                     <div className="absolute top-3 left-3 z-10">
-                      <span className="text-[10px] font-mono font-bold px-2 py-1 bg-[#E8191A] text-[#F2F2F2] uppercase tracking-widest">
-                        {article.category}
-                      </span>
+                      <span className="text-[10px] font-mono font-bold px-2 py-1 bg-[#E8191A] text-[#F2F2F2] uppercase tracking-widest">{article.category}</span>
                     </div>
                     <div className="absolute top-3 right-3 z-10">
                       <div className="w-6 h-6 bg-black/70 rounded flex items-center justify-center">
@@ -270,8 +333,7 @@ export default function HomePage() {
                   </div>
                   <div className="p-5">
                     <p className="text-[#F2F2F2]/30 text-xs font-mono mb-2">{article.date}</p>
-                    <h3 className="font-display font-bold text-lg text-[#F2F2F2] group-hover:text-[#E8191A] transition-colors uppercase leading-tight mb-2"
-                      style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+                    <h3 className="font-display font-bold text-lg text-[#F2F2F2] group-hover:text-[#E8191A] transition-colors uppercase leading-tight mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                       {article.title}
                     </h3>
                     <p className="text-[#F2F2F2]/40 text-sm leading-relaxed line-clamp-2">{article.excerpt}</p>
@@ -296,15 +358,11 @@ export default function HomePage() {
               <MessageCircle size={14} className="text-[#E8191A]" />
               <span className="text-xs font-mono text-[#E8191A] tracking-widest uppercase">Community</span>
             </div>
-            <h2 className="font-display font-black text-6xl md:text-8xl uppercase text-[#F2F2F2] leading-none mb-6"
-              style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+            <h2 className="font-display font-black text-6xl md:text-8xl uppercase text-[#F2F2F2] leading-none mb-6" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
               JOIN THE<br />
-              <span style={{
-                background: 'linear-gradient(135deg, #FF3334, #E8191A)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>COMMUNITY</span>
+              <span style={{ background: 'linear-gradient(135deg, #FF3334, #E8191A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                COMMUNITY
+              </span>
             </h2>
             <p className="text-[#F2F2F2]/40 text-lg mb-10 max-w-lg mx-auto">
               Connect with Overtake fans, get exclusive updates, and be first in line for tryouts.
@@ -312,33 +370,44 @@ export default function HomePage() {
             <a href="https://discord.com/invite/OvertakeSector" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-10 py-5 font-bold tracking-widest uppercase text-base transition-all hover:shadow-[0_0_40px_rgba(232,25,26,0.5)] text-[#F2F2F2]"
               style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
-              <MessageCircle size={18} />
-              Join Discord — Free
+              <MessageCircle size={18} /> Join Discord — Free
             </a>
           </div>
         </section>
 
-        {/* ─── JOIN CTA BANNER ─── */}
+        {/* ─── JOIN CTA ─── */}
         <div className="relative bg-[#E8191A] py-16 overflow-hidden">
           <div className="absolute inset-0 bg-grid opacity-10" />
           <div className="relative max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
               <p className="text-[#F2F2F2]/60 text-sm font-mono tracking-widest uppercase mb-2">// Open Tryouts 2026</p>
-              <h2 className="font-display font-black text-5xl md:text-6xl uppercase text-[#F2F2F2]"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+              <h2 className="font-display font-black text-5xl md:text-6xl uppercase text-[#F2F2F2]" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                 THINK YOU HAVE<br />WHAT IT TAKES?
               </h2>
             </div>
             <Link href="/join"
               className="group flex-shrink-0 flex items-center gap-3 bg-[#F2F2F2] text-[#E8191A] hover:bg-[#0D0D0D] hover:text-[#F2F2F2] px-10 py-5 font-black tracking-widest uppercase text-base transition-all clip-corner"
               style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
-              Apply Now
-              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              Apply Now <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
 
       </div>
+
+      {/* Red sweep animation keyframes */}
+      <style jsx global>{`
+        @keyframes redSweep {
+          0%   { top: -2px; opacity: 0; }
+          5%   { opacity: 1; }
+          95%  { opacity: 1; }
+          100% { top: 100vh; opacity: 0; }
+        }
+        @keyframes redPulse {
+          0%, 100% { opacity: 0.6; }
+          50%       { opacity: 1; }
+        }
+      `}</style>
     </>
   )
 }
