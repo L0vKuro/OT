@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronRight, MessageCircle, ArrowRight } from 'lucide-react'
-import { teams, creators, news, partners } from '@/lib/data'
+import { teams, news } from '@/lib/data'
 
 const stats = [
   { label: 'Active Rosters', value: '8', unit: '' },
@@ -20,8 +20,6 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-grid opacity-40" />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E8191A]/8 blur-[120px] rounded-full" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E8191A]/5 blur-[100px] rounded-full" />
-
-        {/* Diagonal lines */}
         <div className="absolute right-0 top-0 h-full w-1/2 overflow-hidden opacity-10">
           <div className="absolute inset-0 bg-gradient-to-l from-[#E8191A]/20 to-transparent" />
           {[...Array(8)].map((_, i) => (
@@ -32,13 +30,11 @@ export default function HomePage() {
 
         <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-16 w-full">
           <div className="max-w-4xl">
-            {/* Badge */}
             <div className="inline-flex items-center gap-2 border border-[#E8191A]/30 bg-[#E8191A]/5 px-4 py-1.5 rounded-sm mb-6">
               <div className="w-1.5 h-1.5 bg-[#E8191A] rounded-full animate-pulse" />
               <span className="text-xs font-mono text-[#E8191A] tracking-widest uppercase">Season 2026 — Now Recruiting</span>
             </div>
 
-            {/* Headline */}
             <h1 className="font-display font-black uppercase leading-none mb-5" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
               <span className="block text-[#F2F2F2] text-[clamp(56px,11vw,130px)] tracking-tight">COMPETE.</span>
               <span className="block text-[clamp(56px,11vw,130px)] tracking-tight" style={{
@@ -49,10 +45,9 @@ export default function HomePage() {
             </h1>
 
             <p className="text-[#F2F2F2]/50 text-lg max-w-xl leading-relaxed mb-8">
-              Overtake is a premier competitive esports organization building the next generation of champions. Eight rosters. One mission.
+              Overtake is a premier competitive esports organization building the next generation of champions in & out of the game.
             </p>
 
-            {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4">
               <Link href="/join"
                 className="group flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-8 py-4 font-bold tracking-widest uppercase text-sm transition-all hover:shadow-[0_0_40px_rgba(232,25,26,0.4)] clip-corner text-[#F2F2F2]"
@@ -77,7 +72,7 @@ export default function HomePage() {
 
       {/* ─── STATS BAR ─── */}
       <div className="bg-[#E8191A] py-4 relative overflow-hidden">
-        <div className="flex items-center gap-0 px-8 w-full justify-center flex-wrap gap-y-3">
+        <div className="flex items-center px-8 w-full justify-center flex-wrap gap-y-3">
           {stats.map((s, i) => (
             <div key={s.label} className="flex items-center gap-4">
               <span className="font-display font-black text-4xl text-[#F2F2F2]"
@@ -116,7 +111,6 @@ export default function HomePage() {
                 <div className="absolute top-0 left-0 w-1 h-full" style={{ background: team.color }} />
                 <div className="absolute top-0 left-0 w-full h-px" style={{ background: `linear-gradient(90deg, ${team.color}, transparent)` }} />
                 <div className="absolute top-0 right-0 w-32 h-32 blur-[60px] opacity-10 group-hover:opacity-20 transition-opacity" style={{ background: team.color }} />
-
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
@@ -131,7 +125,6 @@ export default function HomePage() {
                     </h3>
                   </div>
                 </div>
-
                 <div className="flex flex-wrap gap-2">
                   {team.roster.map((player, pi) => (
                     <div key={pi} className="flex items-center gap-1.5 bg-white/3 border border-white/5 px-3 py-1.5 rounded-sm">
@@ -141,7 +134,6 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
-
                 <div className="flex items-center gap-2 mt-4 text-xs text-[#F2F2F2]/30 group-hover:text-[#F2F2F2]/60 transition-colors font-medium">
                   View Roster <ChevronRight size={12} />
                 </div>
@@ -163,30 +155,34 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {news.map((article) => (
               <a key={article.id} href={article.link} target="_blank" rel="noopener noreferrer"
                 className="group relative bg-[#0D0D0D] border border-white/5 hover:border-[#E8191A]/30 overflow-hidden card-hover block">
 
-                {/* Cover image with dark overlay */}
-                <div className="h-44 relative overflow-hidden bg-[#1A1A1A]">
-                  <div className="absolute inset-0 bg-grid opacity-20" />
-                  {/* Darkened tweet image */}
-                  <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-50 transition-opacity"
-                    style={{ backgroundImage: `url(${article.image})` }} />
-                  {/* Dark gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-transparent" />
+                {/* Cover image — dark by default, reveals on hover */}
+                <div className="h-48 relative overflow-hidden bg-[#1A1A1A]">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-all duration-500 scale-105 group-hover:scale-100 brightness-[0.25] group-hover:brightness-75"
+                    />
+                  </div>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/40 to-transparent group-hover:via-transparent transition-all duration-500" />
 
                   {/* Category badge */}
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="text-[10px] font-mono font-bold px-2 py-1 bg-[#E8191A]/90 text-[#F2F2F2] uppercase tracking-widest">
+                    <span className="text-[10px] font-mono font-bold px-2 py-1 bg-[#E8191A] text-[#F2F2F2] uppercase tracking-widest">
                       {article.category}
                     </span>
                   </div>
 
-                  {/* X/Twitter icon */}
+                  {/* X icon */}
                   <div className="absolute top-3 right-3 z-10">
-                    <div className="w-6 h-6 bg-black/60 rounded flex items-center justify-center">
+                    <div className="w-6 h-6 bg-black/70 rounded flex items-center justify-center">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                       </svg>
@@ -258,7 +254,6 @@ export default function HomePage() {
           </Link>
         </div>
       </div>
-
     </div>
   )
 }

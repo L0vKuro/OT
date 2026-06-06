@@ -35,15 +35,21 @@ export default function Navbar() {
       }`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
-          {/* ── Logo: icon + wordmark ── */}
+          {/* ── Logo: crosshair icon + wordmark ── */}
           <Link href="/" className="flex items-center gap-3 group">
-            {/* Crosshair icon */}
             <div className="relative w-9 h-9 flex-shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(232,25,26,0.8)] transition-all duration-300">
               <Image src="/overtake-logo.png" alt="Overtake" width={36} height={36} className="object-contain" priority />
             </div>
-            {/* Wordmark */}
-            <div className="relative h-7 w-36 group-hover:opacity-80 transition-opacity">
-              <Image src="/overtake-wordmark.png" alt="OVERTAKE" fill className="object-contain object-left" priority />
+            {/* Wordmark — transparent PNG, shown as-is on dark bg */}
+            <div className="relative h-8 w-40 flex-shrink-0">
+              <Image
+                src="/overtake-wordmark.png"
+                alt="OVERTAKE"
+                fill
+                className="object-contain object-left"
+                priority
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             </div>
           </Link>
 
@@ -84,8 +90,14 @@ export default function Navbar() {
           menuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
           <div className="flex items-center justify-between p-6 border-b border-white/5">
-            <div className="relative h-6 w-32">
-              <Image src="/overtake-wordmark.png" alt="OVERTAKE" fill className="object-contain object-left" />
+            <div className="flex items-center gap-3">
+              <div className="relative w-7 h-7">
+                <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" />
+              </div>
+              <div className="relative h-6 w-32">
+                <Image src="/overtake-wordmark.png" alt="OVERTAKE" fill className="object-contain object-left"
+                  style={{ filter: 'brightness(0) invert(1)' }} />
+              </div>
             </div>
             <button onClick={() => setMenuOpen(false)} className="text-[#F2F2F2]/40 hover:text-[#F2F2F2]">
               <X size={20} />
