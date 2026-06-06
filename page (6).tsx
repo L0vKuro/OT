@@ -1,22 +1,15 @@
-import { partners } from '@/lib/data'
-import { ChevronRight, Mail } from 'lucide-react'
+'use client'
 
-export const metadata = {
-  title: 'Partners — Overtake Esports',
-  description: 'Meet the brands and organizations that power Overtake Esports.',
-}
+import { useState } from 'react'
+import { Mail, MessageCircle, Twitter, ChevronRight, Send, MapPin } from 'lucide-react'
 
-const TIER_CONFIG = {
-  Founding: { label: 'FOUNDING PARTNER', color: '#E8191A', bg: '#E8191A15', border: '#E8191A30' },
-  Premier: { label: 'PREMIER PARTNER', color: '#FFB800', bg: '#FFB80015', border: '#FFB80030' },
-  Official: { label: 'OFFICIAL PARTNER', color: '#ffffff', bg: '#ffffff08', border: '#ffffff15' },
-}
+export default function ContactPage() {
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
 
-export default function PartnersPage() {
-  const grouped = {
-    Founding: partners.filter(p => p.tier === 'Founding'),
-    Premier: partners.filter(p => p.tier === 'Premier'),
-    Official: partners.filter(p => p.tier === 'Official'),
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitted(true)
   }
 
   return (
@@ -27,128 +20,169 @@ export default function PartnersPage() {
       <div className="relative pt-36 pb-20 border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-to-b from-[#E8191A]/5 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-6">
-          <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Partnerships</p>
+          <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Get In Touch</p>
           <h1
             className="font-display font-black text-7xl md:text-9xl uppercase text-white leading-none"
             style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
           >
-            OUR<br />PARTNERS
+            CONTACT<br />US
           </h1>
-          <p className="text-white/40 text-lg mt-6 max-w-xl">
-            Overtake partners with the world's leading brands in gaming, hardware, and lifestyle. Together we build the future of competitive esports.
-          </p>
         </div>
       </div>
 
-      {/* Partners by tier */}
-      <div className="max-w-7xl mx-auto px-6 py-20 space-y-20">
-        {(Object.entries(grouped) as [keyof typeof grouped, typeof partners][]).map(([tier, tierPartners]) => {
-          if (!tierPartners.length) return null
-          const config = TIER_CONFIG[tier]
-          return (
-            <div key={tier}>
-              {/* Tier header */}
-              <div className="flex items-center gap-4 mb-10">
-                <span
-                  className="text-xs font-mono font-bold px-3 py-1.5 uppercase tracking-widest"
-                  style={{ color: config.color, background: config.bg, border: `1px solid ${config.border}` }}
-                >
-                  {config.label}
-                </span>
-                <div className="flex-1 h-px bg-white/5" />
-              </div>
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-              <div className={`grid gap-4 ${tier === 'Founding' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}`}>
-                {tierPartners.map((partner) => (
-                  <div
-                    key={partner.name}
-                    className="group relative bg-[#0D0D0D] border border-white/5 hover:border-white/10 overflow-hidden card-hover p-6"
-                    style={{ borderTopColor: config.color + '40' }}
-                  >
-                    <div className="h-px w-full mb-6" style={{ background: `linear-gradient(90deg, ${config.color}, transparent)` }} />
+          {/* Contact Info */}
+          <div className="lg:col-span-1 space-y-8">
+            <div>
+              <h2
+                className="font-display font-black text-2xl uppercase text-white mb-6"
+                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+              >
+                REACH OUT
+              </h2>
+              <p className="text-white/40 text-sm leading-relaxed">
+                Have a question, partnership inquiry, or media request? Use the form or reach us directly through any of the channels below.
+              </p>
+            </div>
 
-                    {/* Category */}
-                    <span
-                      className="text-[10px] font-mono uppercase tracking-widest mb-3 block"
-                      style={{ color: config.color, opacity: 0.7 }}
-                    >
-                      {partner.category}
-                    </span>
-
-                    {/* Logo placeholder */}
-                    <div className="mb-4">
-                      <h3
-                        className={`font-display font-black uppercase text-white ${tier === 'Founding' ? 'text-5xl' : 'text-3xl'}`}
-                        style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-                      >
-                        {partner.name}
-                      </h3>
-                    </div>
-
-                    <p className="text-white/40 text-sm leading-relaxed">{partner.desc}</p>
-
-                    {tier === 'Founding' && (
-                      <div
-                        className="mt-6 flex items-center gap-2 text-sm font-medium"
-                        style={{ color: config.color }}
-                      >
-                        View Partnership <ChevronRight size={14} />
-                      </div>
-                    )}
+            {/* Contact channels */}
+            <div className="space-y-3">
+              {[
+                { icon: Mail, label: 'General Inquiries', value: 'hello@overtakegg.com', color: '#E8191A' },
+                { icon: Mail, label: 'Partnerships', value: 'partnerships@overtakegg.com', color: '#E8191A' },
+                { icon: Mail, label: 'Media & Press', value: 'press@overtakegg.com', color: '#E8191A' },
+                { icon: MapPin, label: 'Headquarters', value: 'Los Angeles, CA', color: '#E8191A' },
+              ].map(({ icon: Icon, label, value, color }) => (
+                <div key={label} className="flex items-start gap-4 bg-[#0D0D0D] border border-white/5 p-4">
+                  <div className="w-8 h-8 flex items-center justify-center border border-white/10 flex-shrink-0" style={{ color }}>
+                    <Icon size={14} />
                   </div>
+                  <div>
+                    <p className="text-white/30 text-xs font-mono uppercase tracking-wider mb-0.5">{label}</p>
+                    <p className="text-white text-sm font-medium">{value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Social links */}
+            <div>
+              <p className="text-white/20 text-xs font-mono tracking-widest uppercase mb-4">// Follow Us</p>
+              <div className="flex flex-wrap gap-3">
+                {[
+                  { label: '@overtakegg', platform: 'Twitter', href: 'https://twitter.com/overtakegg', icon: Twitter },
+                  { label: 'Join Discord', platform: 'Discord', href: 'https://discord.com/invite/OvertakeSector', icon: MessageCircle },
+                ].map(({ label, href, icon: Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 border border-white/8 hover:border-[#E8191A]/30 hover:bg-[#E8191A]/5 px-4 py-2.5 text-sm text-white/50 hover:text-white transition-all"
+                  >
+                    <Icon size={14} />
+                    {label}
+                  </a>
                 ))}
               </div>
             </div>
-          )
-        })}
-      </div>
+          </div>
 
-      {/* Partnership Inquiry */}
-      <div className="bg-[#0D0D0D] border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Work With Us</p>
-              <h2
-                className="font-display font-black text-5xl md:text-6xl uppercase text-white leading-tight mb-6"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-              >
-                INTERESTED IN<br />PARTNERING WITH<br />OVERTAKE?
-              </h2>
-              <p className="text-white/40 leading-relaxed mb-8">
-                We work with brands that share our values — high performance, authenticity, and a deep connection to gaming culture. Reach out to our partnerships team.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="mailto:partnerships@overtakegg.com"
-                  className="flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-8 py-4 font-bold tracking-widest uppercase text-sm transition-all hover:shadow-[0_0_30px_rgba(232,25,26,0.4)] clip-corner"
-                  style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-                >
-                  <Mail size={16} />
-                  partnerships@overtakegg.com
-                </a>
-              </div>
-            </div>
+          {/* Contact Form */}
+          <div className="lg:col-span-2">
+            <div className="relative bg-[#0D0D0D] border border-white/5 p-8 md:p-10">
+              <div className="h-px w-full bg-gradient-to-r from-[#E8191A] to-transparent mb-8" />
 
-            {/* Benefits grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { label: 'Brand Visibility', desc: 'Across all Overtake platforms, jerseys, and content' },
-                { label: 'Creator Integrations', desc: 'Organic content with 10M+ combined reach' },
-                { label: 'Event Presence', desc: 'Logos and activations at live tournament events' },
-                { label: 'Custom Campaigns', desc: 'Tailored activations built around your goals' },
-              ].map((benefit) => (
-                <div key={benefit.label} className="bg-[#141414] border border-white/5 p-5">
-                  <div className="w-1.5 h-1.5 bg-[#E8191A] rounded-full mb-3" />
-                  <h4
-                    className="font-display font-bold text-lg text-white uppercase mb-2"
+              {submitted ? (
+                <div className="text-center py-16">
+                  <div className="w-16 h-16 bg-[#E8191A]/10 border border-[#E8191A]/30 flex items-center justify-center mx-auto mb-6">
+                    <Send size={24} className="text-[#E8191A]" />
+                  </div>
+                  <h3
+                    className="font-display font-black text-4xl text-white uppercase mb-3"
                     style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
                   >
-                    {benefit.label}
-                  </h4>
-                  <p className="text-white/30 text-xs leading-relaxed">{benefit.desc}</p>
+                    MESSAGE SENT
+                  </h3>
+                  <p className="text-white/40">We'll get back to you within 1–2 business days.</p>
                 </div>
-              ))}
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs font-mono text-white/30 uppercase tracking-widest mb-2">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                        className="input-dark w-full px-4 py-3 rounded-sm text-sm"
+                        placeholder="Your name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono text-white/30 uppercase tracking-widest mb-2">
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={form.email}
+                        onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                        className="input-dark w-full px-4 py-3 rounded-sm text-sm"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-white/30 uppercase tracking-widest mb-2">
+                      Subject *
+                    </label>
+                    <select
+                      required
+                      value={form.subject}
+                      onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+                      className="input-dark w-full px-4 py-3 rounded-sm text-sm appearance-none"
+                    >
+                      <option value="" disabled>Select a subject</option>
+                      <option value="general">General Inquiry</option>
+                      <option value="partnership">Partnership Opportunity</option>
+                      <option value="media">Media & Press</option>
+                      <option value="player">Player Inquiry</option>
+                      <option value="creator">Creator Inquiry</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-white/30 uppercase tracking-widest mb-2">
+                      Message *
+                    </label>
+                    <textarea
+                      required
+                      rows={6}
+                      value={form.message}
+                      onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                      className="input-dark w-full px-4 py-3 rounded-sm text-sm resize-none"
+                      placeholder="Tell us what's on your mind..."
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-8 py-4 font-bold tracking-widest uppercase text-sm transition-all hover:shadow-[0_0_30px_rgba(232,25,26,0.4)] clip-corner group"
+                    style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+                  >
+                    Send Message
+                    <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

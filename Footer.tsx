@@ -1,211 +1,156 @@
-import { creators } from '@/lib/data'
-import { Twitter, Youtube, Twitch, Users, TrendingUp } from 'lucide-react'
+import { partners } from '@/lib/data'
+import { ChevronRight, Mail } from 'lucide-react'
 
 export const metadata = {
-  title: 'Creators — Overtake Esports',
-  description: 'Meet the Overtake creator roster — streamers, YouTubers, and content creators redefining gaming culture.',
+  title: 'Partners — Overtake Esports',
+  description: 'Meet the brands and organizations that power Overtake Esports.',
 }
 
-const PLATFORM_COLORS: Record<string, string> = {
-  Twitch: '#9146FF',
-  YouTube: '#FF0000',
-  TikTok: '#010101',
+const TIER_CONFIG = {
+  Founding: { label: 'FOUNDING PARTNER', color: '#E8191A', bg: '#E8191A15', border: '#E8191A30' },
+  Premier: { label: 'PREMIER PARTNER', color: '#FFB800', bg: '#FFB80015', border: '#FFB80030' },
+  Official: { label: 'OFFICIAL PARTNER', color: '#ffffff', bg: '#ffffff08', border: '#ffffff15' },
 }
 
-export default function CreatorsPage() {
+export default function PartnersPage() {
+  const grouped = {
+    Founding: partners.filter(p => p.tier === 'Founding'),
+    Premier: partners.filter(p => p.tier === 'Premier'),
+    Official: partners.filter(p => p.tier === 'Official'),
+  }
+
   return (
     <div className="relative min-h-screen">
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
 
       {/* Header */}
-      <div className="relative pt-36 pb-20 border-b border-white/5 overflow-hidden">
+      <div className="relative pt-36 pb-20 border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-to-b from-[#E8191A]/5 to-transparent" />
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden opacity-10">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute top-0 bottom-0 w-px bg-[#E8191A]"
-              style={{ right: `${i * 50}px`, transform: 'skewX(-20deg)', transformOrigin: 'top' }}
-            />
-          ))}
-        </div>
         <div className="relative max-w-7xl mx-auto px-6">
-          <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Content Division</p>
+          <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Partnerships</p>
           <h1
             className="font-display font-black text-7xl md:text-9xl uppercase text-white leading-none"
             style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
           >
-            OUR<br />
-            <span style={{
-              background: 'linear-gradient(135deg, #FF3334 0%, #E8191A 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>CREATORS</span>
+            OUR<br />PARTNERS
           </h1>
-          <p className="text-white/40 text-lg mt-6 max-w-lg">
-            Gaming culture is shaped by the people who create it. Meet the Overtake content division — streamers, YouTubers, and personalities with a combined following of over 10 million.
+          <p className="text-white/40 text-lg mt-6 max-w-xl">
+            Overtake partners with the world's leading brands in gaming, hardware, and lifestyle. Together we build the future of competitive esports.
           </p>
-          <div className="flex flex-wrap gap-6 mt-10">
-            {[
-              { label: 'Combined Followers', value: '10M+' },
-              { label: 'Avg Monthly Views', value: '40M+' },
-              { label: 'Active Creators', value: '6' },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex items-center gap-3 border border-white/8 px-5 py-3 bg-white/2">
-                <TrendingUp size={16} className="text-[#E8191A]" />
-                <span className="text-white/40 text-sm">{label}</span>
-                <span className="font-display font-black text-xl text-white" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>{value}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
-      {/* Creators Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {creators.map((creator, i) => (
-            <div
-              key={creator.id}
-              className="group relative bg-[#0D0D0D] border border-white/5 hover:border-[#E8191A]/20 overflow-hidden card-hover"
-            >
-              {/* Top bar */}
-              <div className="h-px w-full bg-gradient-to-r from-[#E8191A] to-transparent" />
-
-              {/* Platform color accent */}
-              <div
-                className="h-48 relative overflow-hidden"
-                style={{ background: `linear-gradient(135deg, ${PLATFORM_COLORS[creator.platform] || '#E8191A'}15, transparent 60%)` }}
-              >
-                <div className="absolute inset-0 bg-grid opacity-20" />
-
-                {/* Large handle watermark */}
-                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                  <span
-                    className="font-display font-black text-8xl text-white/4 uppercase select-none"
-                    style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-                  >
-                    {creator.handle}
-                  </span>
-                </div>
-
-                {/* Avatar circle */}
-                <div className="absolute left-6 bottom-6">
-                  <div
-                    className="w-20 h-20 rounded-full border-2 flex items-center justify-center"
-                    style={{ borderColor: PLATFORM_COLORS[creator.platform] || '#E8191A', background: `${PLATFORM_COLORS[creator.platform] || '#E8191A'}15` }}
-                  >
-                    <span
-                      className="font-display font-black text-3xl"
-                      style={{ fontFamily: 'Barlow Condensed, sans-serif', color: PLATFORM_COLORS[creator.platform] || '#E8191A' }}
-                    >
-                      {creator.handle.slice(0, 2)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Followers badge */}
-                <div className="absolute top-4 right-4">
-                  <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur border border-white/10 px-3 py-1.5 rounded-sm">
-                    <Users size={11} className="text-white/50" />
-                    <span className="font-mono text-xs font-bold text-white">{creator.followers}</span>
-                  </div>
-                </div>
-
-                {/* Platform badge */}
-                <div className="absolute top-4 left-4">
-                  <div
-                    className="text-[10px] font-mono font-bold px-2 py-1 uppercase tracking-widest"
-                    style={{ color: PLATFORM_COLORS[creator.platform] || '#E8191A', background: `${PLATFORM_COLORS[creator.platform] || '#E8191A'}15`, border: `1px solid ${PLATFORM_COLORS[creator.platform] || '#E8191A'}30` }}
-                  >
-                    {creator.platform}
-                  </div>
-                </div>
+      {/* Partners by tier */}
+      <div className="max-w-7xl mx-auto px-6 py-20 space-y-20">
+        {(Object.entries(grouped) as [keyof typeof grouped, typeof partners][]).map(([tier, tierPartners]) => {
+          if (!tierPartners.length) return null
+          const config = TIER_CONFIG[tier]
+          return (
+            <div key={tier}>
+              {/* Tier header */}
+              <div className="flex items-center gap-4 mb-10">
+                <span
+                  className="text-xs font-mono font-bold px-3 py-1.5 uppercase tracking-widest"
+                  style={{ color: config.color, background: config.bg, border: `1px solid ${config.border}` }}
+                >
+                  {config.label}
+                </span>
+                <div className="flex-1 h-px bg-white/5" />
               </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3
-                      className="font-display font-black text-3xl text-white uppercase"
-                      style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+              <div className={`grid gap-4 ${tier === 'Founding' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}`}>
+                {tierPartners.map((partner) => (
+                  <div
+                    key={partner.name}
+                    className="group relative bg-[#0D0D0D] border border-white/5 hover:border-white/10 overflow-hidden card-hover p-6"
+                    style={{ borderTopColor: config.color + '40' }}
+                  >
+                    <div className="h-px w-full mb-6" style={{ background: `linear-gradient(90deg, ${config.color}, transparent)` }} />
+
+                    {/* Category */}
+                    <span
+                      className="text-[10px] font-mono uppercase tracking-widest mb-3 block"
+                      style={{ color: config.color, opacity: 0.7 }}
                     >
-                      {creator.handle}
-                    </h3>
-                    <p className="text-white/30 text-sm">{creator.real} {creator.country}</p>
+                      {partner.category}
+                    </span>
+
+                    {/* Logo placeholder */}
+                    <div className="mb-4">
+                      <h3
+                        className={`font-display font-black uppercase text-white ${tier === 'Founding' ? 'text-5xl' : 'text-3xl'}`}
+                        style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+                      >
+                        {partner.name}
+                      </h3>
+                    </div>
+
+                    <p className="text-white/40 text-sm leading-relaxed">{partner.desc}</p>
+
+                    {tier === 'Founding' && (
+                      <div
+                        className="mt-6 flex items-center gap-2 text-sm font-medium"
+                        style={{ color: config.color }}
+                      >
+                        View Partnership <ChevronRight size={14} />
+                      </div>
+                    )}
                   </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-[10px] font-mono px-2 py-0.5 bg-[#E8191A]/10 text-[#E8191A] border border-[#E8191A]/20 uppercase tracking-wider">
-                    {creator.specialty}
-                  </span>
-                </div>
-
-                <p className="text-white/40 text-sm leading-relaxed mb-5">{creator.bio}</p>
-
-                {/* Socials */}
-                <div className="flex items-center gap-2 pt-4 border-t border-white/5">
-                  <span className="text-white/20 text-xs font-mono mr-1">FOLLOW:</span>
-                  {creator.socials.twitch && (
-                    <a
-                      href={`https://twitch.tv/${creator.socials.twitch}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-7 h-7 flex items-center justify-center border border-white/8 hover:border-[#9146FF]/50 hover:bg-[#9146FF]/10 rounded transition-all text-white/30 hover:text-[#9146FF]"
-                    >
-                      <Twitch size={12} />
-                    </a>
-                  )}
-                  {creator.socials.twitter && (
-                    <a
-                      href={`https://twitter.com/${creator.socials.twitter}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-7 h-7 flex items-center justify-center border border-white/8 hover:border-[#1DA1F2]/50 hover:bg-[#1DA1F2]/10 rounded transition-all text-white/30 hover:text-[#1DA1F2]"
-                    >
-                      <Twitter size={12} />
-                    </a>
-                  )}
-                  {creator.socials.youtube && (
-                    <a
-                      href={`https://youtube.com/@${creator.socials.youtube}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-7 h-7 flex items-center justify-center border border-white/8 hover:border-red-500/50 hover:bg-red-500/10 rounded transition-all text-white/30 hover:text-red-400"
-                    >
-                      <Youtube size={12} />
-                    </a>
-                  )}
-                </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          )
+        })}
       </div>
 
-      {/* Creator Application */}
-      <div className="bg-[#0D0D0D] border-t border-white/5 py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Creator Program</p>
-          <h2
-            className="font-display font-black text-5xl md:text-7xl uppercase text-white mb-4"
-            style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-          >
-            BECOME AN<br />OVERTAKE CREATOR
-          </h2>
-          <p className="text-white/40 text-lg mb-10 max-w-lg mx-auto">
-            Got an audience and the content to match? We're always looking for creators who align with the Overtake ethos. Apply to join the team.
-          </p>
-          <a
-            href="/join#creator"
-            className="inline-flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-10 py-5 font-black tracking-widest uppercase text-base transition-all hover:shadow-[0_0_40px_rgba(232,25,26,0.4)] clip-corner"
-            style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-          >
-            Apply as Creator
-          </a>
+      {/* Partnership Inquiry */}
+      <div className="bg-[#0D0D0D] border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-[#E8191A] text-xs font-mono tracking-widest uppercase mb-4">// Work With Us</p>
+              <h2
+                className="font-display font-black text-5xl md:text-6xl uppercase text-white leading-tight mb-6"
+                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+              >
+                INTERESTED IN<br />PARTNERING WITH<br />OVERTAKE?
+              </h2>
+              <p className="text-white/40 leading-relaxed mb-8">
+                We work with brands that share our values — high performance, authenticity, and a deep connection to gaming culture. Reach out to our partnerships team.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="mailto:partnerships@overtakegg.com"
+                  className="flex items-center gap-3 bg-[#E8191A] hover:bg-[#B81011] px-8 py-4 font-bold tracking-widest uppercase text-sm transition-all hover:shadow-[0_0_30px_rgba(232,25,26,0.4)] clip-corner"
+                  style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+                >
+                  <Mail size={16} />
+                  partnerships@overtakegg.com
+                </a>
+              </div>
+            </div>
+
+            {/* Benefits grid */}
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: 'Brand Visibility', desc: 'Across all Overtake platforms, jerseys, and content' },
+                { label: 'Creator Integrations', desc: 'Organic content with 10M+ combined reach' },
+                { label: 'Event Presence', desc: 'Logos and activations at live tournament events' },
+                { label: 'Custom Campaigns', desc: 'Tailored activations built around your goals' },
+              ].map((benefit) => (
+                <div key={benefit.label} className="bg-[#141414] border border-white/5 p-5">
+                  <div className="w-1.5 h-1.5 bg-[#E8191A] rounded-full mb-3" />
+                  <h4
+                    className="font-display font-bold text-lg text-white uppercase mb-2"
+                    style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+                  >
+                    {benefit.label}
+                  </h4>
+                  <p className="text-white/30 text-xs leading-relaxed">{benefit.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
