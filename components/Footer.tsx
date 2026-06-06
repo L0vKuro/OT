@@ -7,7 +7,7 @@ const socialLinks = [
   { icon: Youtube,       label: 'YouTube',   href: 'https://youtube.com/@overtakegg' },
   { icon: Instagram,     label: 'Instagram', href: 'https://instagram.com/overtakegg' },
   { icon: Twitch,        label: 'Twitch',    href: 'https://twitch.tv/overtakegg' },
-  { icon: MessageCircle, label: 'Discord',   href: 'https://discord.gg/overtake' },
+  { icon: MessageCircle, label: 'Discord',   href: 'https://discord.com/invite/OvertakeSector' },
 ]
 
 const footerLinks = {
@@ -21,7 +21,7 @@ const footerLinks = {
     { href: '/join',                      label: 'Join Overtake' },
     { href: '/contact',                   label: 'Contact' },
     { href: '/#news',                     label: 'News' },
-    { href: 'https://discord.gg/overtake', label: 'Discord' },
+    { href: 'https://discord.com/invite/OvertakeSector', label: 'Discord' },
   ],
   Legal: [
     { href: '#', label: 'Privacy Policy' },
@@ -67,7 +67,7 @@ export default function Footer() {
 
             {/* Discord CTA */}
             <a
-              href="https://discord.gg/overtake"
+              href="https://discord.com/invite/OvertakeSector"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 px-5 py-3 rounded-sm text-sm font-medium text-[#5865F2] hover:text-[#F2F2F2] transition-all group"

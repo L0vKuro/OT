@@ -73,7 +73,7 @@ export default function ContactPage() {
               <div className="flex flex-wrap gap-3">
                 {[
                   { label: '@overtakegg', platform: 'Twitter', href: 'https://twitter.com/overtakegg', icon: Twitter },
-                  { label: 'Join Discord', platform: 'Discord', href: 'https://discord.gg/overtake', icon: MessageCircle },
+                  { label: 'Join Discord', platform: 'Discord', href: 'https://discord.com/invite/OvertakeSector', icon: MessageCircle },
                 ].map(({ label, href, icon: Icon }) => (
                   <a
                     key={label}
