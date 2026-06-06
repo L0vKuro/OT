@@ -394,20 +394,6 @@ export default function HomePage() {
         </div>
 
       </div>
-
-      {/* Red sweep animation keyframes */}
-      <style jsx global>{`
-        @keyframes redSweep {
-          0%   { top: -2px; opacity: 0; }
-          5%   { opacity: 1; }
-          95%  { opacity: 1; }
-          100% { top: 100vh; opacity: 0; }
-        }
-        @keyframes redPulse {
-          0%, 100% { opacity: 0.6; }
-          50%       { opacity: 1; }
-        }
-      `}</style>
     </>
   )
 }
