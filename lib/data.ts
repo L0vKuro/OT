@@ -9,7 +9,7 @@ export const teams = [
     rank: '#3',
     region: 'NA',
     roster: [
-      { name: 'PHANTOM', role: 'IGL', country: '🇺🇸', real: 'Marcus Chen', age: 22 },
+      { name: 'KURO', role: 'IGL', country: '🇺🇸', real: 'Marcus Chen', age: 22 },
       { name: 'VORTEX', role: 'Entry', country: '🇧🇷', real: 'Lucas Silva', age: 20 },
       { name: 'NEON', role: 'Sniper', country: '🇰🇷', real: 'Ji-ho Park', age: 21 },
       { name: 'CIPHER', role: 'Controller', country: '🇬🇧', real: 'Aiden Walsh', age: 23 },
