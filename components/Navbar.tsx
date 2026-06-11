@@ -10,6 +10,8 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/teams', label: 'Teams' },
   { href: '/creators', label: 'Creators' },
+  { href: '/events', label: 'Events' },
+  { href: '/store', label: 'Store' },
   { href: '/partners', label: 'Partners' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
@@ -34,20 +36,15 @@ export default function Navbar() {
         scrolled ? 'bg-[#0D0D0D]/95 backdrop-blur-md border-b border-white/5 py-3' : 'bg-transparent py-5'
       }`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-
-          {/* ── Logo ── */}
           <Link href="/" className="flex items-center gap-3 group">
-            {/* Crosshair icon — mix-blend-mode removes black bg */}
             <div className="relative flex-shrink-0" style={{ width: '44px', height: '44px', mixBlendMode: 'screen' }}>
               <Image src="/overtake-logo.png" alt="Overtake" fill className="object-contain" priority />
             </div>
-            {/* Wordmark — big and transparent */}
             <div className="relative flex-shrink-0" style={{ width: '200px', height: '44px', mixBlendMode: 'screen' }}>
               <Image src="/overtake-wordmark-new.png" alt="OVERTAKE" fill className="object-contain object-left" priority />
             </div>
           </Link>
 
-          {/* ── Desktop Nav ── */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href}
@@ -60,7 +57,6 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* ── CTA + Toggle ── */}
           <div className="flex items-center gap-4">
             <Link href="/join"
               className="hidden sm:flex items-center gap-2 bg-[#E8191A] hover:bg-[#B81011] px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all hover:shadow-[0_0_20px_rgba(232,25,26,0.4)] clip-corner text-[#F2F2F2]"
@@ -75,7 +71,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* ── Mobile Menu ── */}
       <div className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${
         menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
